@@ -1,3 +1,7 @@
+<!-- IMPORTANT: 
+to future self, you always have to do chmod 755 /var/www/chrisp.site/hw2/nodejs/hello-json-node.js  or something so it actually works on website
+ -->
+
 <?php
 header("Content-Type: text/html");
 $date = date("Y-m-d H:i:s");
