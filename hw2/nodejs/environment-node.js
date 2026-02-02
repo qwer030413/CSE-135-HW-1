@@ -8,7 +8,7 @@ process.stdout.write(`<html><head><script async src="https://www.googletagmanage
   gtag('js', new Date());
 
   gtag('config', 'G-DW8W4JLZ2W');
-</script></head><body><h1>Environment Variables</h1><ul>`);
+</script></head><body><h1>Environment Variables Node js</h1><ul>`);
 
 for (const key in process.env) {
     process.stdout.write(`<li>${key}: ${process.env[key]}</li>`);

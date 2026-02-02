@@ -25,6 +25,14 @@ if (method === 'POST') {
     }
 }
 
+// get params by bruteforce split
+const params = Object.fromEntries(
+  queryString
+    .split('&')
+    .filter(p => p.includes('='))
+    .map(p => p.split('='))
+);
+const page = params.page || 'form';
 process.stdout.write("Content-Type: text/html\n\n");
 process.stdout.write(`
 <!DOCTYPE html>
@@ -42,16 +50,29 @@ process.stdout.write(`
 </head>
 
 <body>
-    <h1>State (NodeJs)</h1>
-    <p>
-        Saved Data: ${savedData}
-    </p>
-    <form method="POST">
-        <input type="text" name="newData">
-        <button type="submit">Save</button>
-    </form>
+`)
 
-    <a href="?wipe">Clear Data</a>
-</body>
-</html>
-`);
+if (page == "form"){
+    process.stdout.write(`
+        <h1>State Demo (NodeJs)enter data</h1>
+
+        <form method="POST" action="state-node.js?page=view">
+            <input type="text" name="newData" required>
+            <button type="submit">Save</button>
+        </form>
+
+        <a href="state-node.js?page=view">View Saved Data</a>
+    `)
+}
+else if (page === 'view') {
+    process.stdout.write(`
+        <h1>State Demo (NodeJs)view data</h1>
+
+        <p>
+            Saved Data: <strong>${savedData}</strong>
+        </p>
+
+        <a href="state-node.js?wipe=1">Clear Data</a>
+        <a href="state-node.js?page=form">Back to Form</a>
+    `)
+}
