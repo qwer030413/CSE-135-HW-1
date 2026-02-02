@@ -4,7 +4,16 @@ process.stdout.write("Content-Type: text/html\n\n");
 process.stdout.write(`
 <!DOCTYPE html>
 <html>
-<head><title>Hello HTML - Node</title></head>
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-DW8W4JLZ2W"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-DW8W4JLZ2W');
+</script>
+<title>Hello HTML - Node</title></head>
 <body>
     <h1>HELLO HTML NODE.js</h1>
     <p><b>Language:</b> NodeJS</p>

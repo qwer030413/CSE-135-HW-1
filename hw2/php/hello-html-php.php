@@ -10,6 +10,14 @@ $ip = $_SERVER['REMOTE_ADDR'] ?? 'err';
 <!DOCTYPE html>
 <html>
     <head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-DW8W4JLZ2W"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-DW8W4JLZ2W');
+</script>
         <title>HELLO HTML PHP</title>
     </head>
     <body>

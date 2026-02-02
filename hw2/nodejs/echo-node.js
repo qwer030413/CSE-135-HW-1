@@ -11,6 +11,14 @@ process.stdout.write("Content-Type: text/html\n")
 process.stdout.write(`
 <!DOCTYPE html>
 <head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-DW8W4JLZ2W"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-DW8W4JLZ2W');
+</script>
     <title>General Request Echo NodeJs</title>
 </head>
 <body>
