@@ -20,7 +20,7 @@ $db->exec("
   );
 ");
 
-
+// make the grader account
 $userCount = (int)$db->query("SELECT COUNT(*) FROM users")->fetchColumn();
 if ($userCount == 0) {
   $graderPw = password_hash('grader', PASSWORD_DEFAULT);
