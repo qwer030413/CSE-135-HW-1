@@ -22,7 +22,7 @@ $rows = $db->query("
 $chartData = $db->query("
   SELECT DATE(created_at) AS day, COUNT(*) AS count
   FROM event
-  WHERE created_at >= (NOW() - INTERVAL 7 DAY)
+  WHERE created_at >= (NOW() - INTERVAL 30 DAY)
   GROUP BY DATE(created_at)
   ORDER BY day ASC
 ")->fetchAll();
