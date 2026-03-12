@@ -6,17 +6,13 @@ $db = new PDO(
     "chris",
     "1234!Apple"
 );
+// add role
 $db->exec("
   CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(255) UNIQUE NOT NULL,
-    password VARCHAR(255) NOT NULL
-  );
-
-  CREATE TABLE IF NOT EXISTS events (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    path VARCHAR(255) NOT NULL,
-    created_at DATETIME NOT NULL
+    password VARCHAR(255) NOT NULL,
+    role ENUM('super_admin','analyst','viewer')
   );
 ");
 
@@ -24,9 +20,20 @@ $db->exec("
 $userCount = (int)$db->query("SELECT COUNT(*) FROM users")->fetchColumn();
 if ($userCount == 0) {
   $graderPw = password_hash('grader', PASSWORD_DEFAULT);
-  $query = $db->prepare("INSERT INTO users (username, password) VALUES (?, ?)");
-  $query->execute(['grader', $graderPw]);
+  $query = $db->prepare("INSERT INTO users (username, password,role) VALUES (?, ?,?)");
+  $query->execute(['grader', $graderPw, 'super_admin']);
+
+  // examples
+  $super = password_hash('admin', PASSWORD_DEFAULT);
+  $analyst = password_hash('analyst', PASSWORD_DEFAULT);
+  $viewer = password_hash('viewer', PASSWORD_DEFAULT);
+
+  $query = $db->prepare("INSERT INTO users (username,password,role) VALUES (?,?,?)");
+  $query->execute(['admin',$super,'super_admin']);
+  $query->execute(['analyst',$analyst,'analyst']);
+  $query->execute(['viewer',$viewer,'viewer']);
 }
+
 
 if (isset($_SESSION['user'])) {
   header("Location: dashboard.php");
@@ -39,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $username = trim($_POST['username'] ?? '');
   $pass = $_POST['password'] ?? '';
 
-  $query = $db->prepare("SELECT id, username, password FROM users WHERE username = ? LIMIT 1");
+  $query = $db->prepare("SELECT id, username, password, role FROM users WHERE username = ? LIMIT 1");
   $query->execute([$username]);
   $user = $query->fetch(PDO::FETCH_ASSOC);
 
@@ -47,11 +54,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $err = "username or password wrong";
   } 
   else {
-    // make and store new user
+    // make and store new user and role(new)
     session_regenerate_id(true);
     $_SESSION['user'] = [
       'id' => $user['id'],
-      'username' => $user['username']
+      'username' => $user['username'],
+      'role' => $user['role']
     ];
     header("Location: dashboard.php");
     exit;

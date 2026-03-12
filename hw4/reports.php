@@ -1,34 +1,16 @@
+<!-- I just moved everyhting to dashboard, this page is not used -->
+
+
 <?php
-declare(strict_types=1);
 require_once "auth.php";
 Role(['analyst','super_admin', 'viewer']);
-// session_start();
-// so that people cant just type url and bypass login
-// if (!isset($_SESSION['user'])) {
-//     header("Location: login.php");
-//     exit;
-// }
 $db = new PDO(
     "mysql:host=localhost;dbname=CSE135;charset=utf8mb4",
     "chris",
     "1234!Apple"
 );
-// get data rows
-// $rows = $db->query("
-//     SELECT id, sid, event_type, url, title, created_at
-//     FROM event
-//     ORDER BY created_at DESC
-//     LIMIT 200
-// ")->fetchAll();
-// data for chart
-// $chartData = $db->query("
-//   SELECT DATE(created_at) AS day, COUNT(*) AS count
-//   FROM event
-//   WHERE created_at >= (NOW() - INTERVAL 30 DAY)
-//   GROUP BY DATE(created_at)
-//   ORDER BY day ASC
-// ")->fetchAll();
-// 
+
+
 $chartData = $db->query("
   SELECT DATE(created_at) AS day, COUNT(*) AS count
   FROM event
@@ -67,34 +49,13 @@ $rows = $db->query("
     ORDER BY created_at DESC
     LIMIT 50
 ")->fetchAll();
-
-$comments_data = $db->query("
-SELECT title, category, analyst_comment
-FROM reports
-ORDER BY created_at DESC
-")->fetchAll();
-
-$comments = [];
-foreach ($comments_data as $row) {
-    $comments[$row['category']][] = [
-        'title' => $row['title'],
-        'analyst_comment' => $row['analyst_comment'] ?? ''
-    ];
-}
 ?>
 
-
-<!-- just put chart and graph in same page -->
 <!doctype html>
 <html>
     <body>
-        <h1>Dashboard</h1>
-        <div style = "display:flex; gap:20px; padding:10px; background:#eee; border-bottom:1px solid #ccc;"">
-            <a href="logout.php">Logout</a>
-            <a href="users.php">manage users(only super_admins)</a>
-            <!-- <a href="reports.php">reports</a> -->
-            <a href="create_reports.php">create reports</a>
-        </div>
+        <h1>Reports</h1>
+        <a href="dashboard.php">Dashboard</a>
         <h2>All events</h2>
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <canvas id="allEvents" style="width: 500px; height: 100px;"></canvas>
@@ -118,16 +79,9 @@ foreach ($comments_data as $row) {
             });
         </script>
         <h3>Analyst Comment</h3>
-        <?php if (!empty($comments['all_events'])): ?>
-            <?php foreach ($comments['all_events'] as $c): ?>
-                <div style="background-color:#8A9DF2; padding:2px; border-radius:5px;">
-                    <h4>Title: <?= htmlspecialchars($c['title']) ?></h4>
-                    <p>Comment: <?= htmlspecialchars($c['analyst_comment']) ?></p>
-                </div>
-            <?php endforeach; ?>
-        <?php else: ?>
-            <p>No analyst comment yet.</p>
-        <?php endif; ?>
+        <p>
+        The total number of events has increased drastically in 3/11. this indicates the website has been visited much more frequently that day
+        </p>
         <hr>
         <h2>mouse movements</h2>
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -152,18 +106,9 @@ foreach ($comments_data as $row) {
             });
         </script>
         <h3>Analyst Comment</h3>
-        
-        <?php if (!empty($comments['mouse_events'])): ?>
-            <?php foreach ($comments['mouse_events'] as $c): ?>
-                <div style="background-color:#8A9DF2; padding:2px; border-radius:5px;">
-                    <h4>Title: <?= htmlspecialchars($c['title']) ?></h4>
-                    <p>Comment: <?= htmlspecialchars($c['analyst_comment']) ?></p>
-                </div>
-            <?php endforeach; ?>
-        <?php else: ?>
-            <p>No analyst comment yet.</p>
-        <?php endif; ?>
-
+        <p>
+            A lot of mouse movement was seen in 3/11, which means some users must have been playing around with the site and moving their mouse frantically
+        </p>
         <hr>
         <h2>Event type</h2>
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -208,21 +153,11 @@ foreach ($comments_data as $row) {
             }
         });
         </script>
-        
-        <?php if (!empty($comments['event_type'])): ?>
-            <?php foreach ($comments['event_type'] as $c): ?>
-                <div style="background-color:#8A9DF2; padding:2px; border-radius:5px;">
-                    <h4>Title: <?= htmlspecialchars($c['title']) ?></h4>
-                    <p>Comment: <?= htmlspecialchars($c['analyst_comment']) ?></p>
-                </div>
-            <?php endforeach; ?>
-        <?php else: ?>
-            <p>No analyst comment yet.</p>
-        <?php endif; ?>
-
+        <h3>Analyst Comment</h3>
+        <p>
+            it seems like most events that are being recorded are mouse movements, which makes sense since just moving the mouse accross the screen will log it 10ish times.
+        </p>
         <hr>
-
-        <h2>data table</h2>
         <table style = "padding: 15px; border-spacing: 30px; border: 1px solid black; border-collapse: collapse;">
             <tr>
             <th style = "border: 1px solid black; padding: 10px;">id</th>
@@ -243,17 +178,10 @@ foreach ($comments_data as $row) {
             </tr>
             <?php endforeach; ?>
         </table>
-        <h3>Analyst Comment</h3>
-        <?php if (!empty($comments['data_table'])): ?>
-            <?php foreach ($comments['data_table'] as $c): ?>
-                <div style="background-color:#8A9DF2; padding:2px; border-radius:5px;">
-                    <h4>Title: <?= htmlspecialchars($c['title']) ?></h4>
-                    <p>Comment: <?= htmlspecialchars($c['analyst_comment']) ?></p>
-                </div>
-            <?php endforeach; ?>
-        <?php else: ?>
-            <p>No analyst comment yet.</p>
-        <?php endif; ?>
+
+        <p>
+            We can clearly see from the table that the user mostly moved their mouse around and clicked while viewing the page.
+        </p>
     </body>
 
 </html>
