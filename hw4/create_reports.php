@@ -28,7 +28,7 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
 <html>
     <body>
         <h1>Create comments for reports</h1>
-        <a href="dashboard.php">Dashboard</a>
+        <a href="dashboard.php" style = "padding: 10px; border-radius:5px; background-color:lightblue;">Dashboard</a>
         <h2>All events report</h2>
         <form method="POST" style = "display: flex; flex-direction:column; width: 500px; background-color:#8A9DF2; padding: 10px; border-radius: 10px; gap:5px;">
             <label>title</label>

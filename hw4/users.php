@@ -18,10 +18,10 @@ $users = $db->query("SELECT id,username,password, role FROM users")->fetchAll();
 <!doctype html>
 <html>
 <body>
-    <a href="dashboard.php">Dashboard</a>
     <h1>manage users</h1>
-    <table style = "padding: 15px; border-spacing: 30px; border: 1px solid black; border-collapse: collapse;">
-            <tr>
+    <a href="dashboard.php" style = "padding: 10px; border-radius:5px; background-color:lightblue;">Dashboard</a>
+    <table style = "padding: 15px; border-spacing: 30px; border: 1px solid black; border-collapse: collapse; margin-top: 20px;">
+            <tr style="background-color: #a5afe8; color: black; text-align: left;">
             <th style = "border: 1px solid black; padding: 10px;">id</th>
             <th style = "border: 1px solid black; padding: 10px;">username</th>
             <th style = "border: 1px solid black; padding: 10px;">password</th>

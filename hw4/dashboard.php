@@ -81,6 +81,7 @@ foreach ($comments_data as $row) {
         'analyst_comment' => $row['analyst_comment'] ?? ''
     ];
 }
+
 ?>
 
 
@@ -89,11 +90,12 @@ foreach ($comments_data as $row) {
 <html>
     <body>
         <h1>Dashboard</h1>
-        <div style = "display:flex; gap:20px; padding:10px; background:#eee; border-bottom:1px solid #ccc;"">
-            <a href="logout.php">Logout</a>
-            <a href="users.php">manage users(only super_admins)</a>
+        <div style = "display:flex; gap:20px; padding:10px; background-color: #4f69fa;">
+            <a href="logout.php" style = "padding: 10px; border-radius:5px; background-color:lightblue;">Logout</a>
+            <a href="users.php" style = "padding: 10px; border-radius:5px; background-color:lightblue;">manage users(only super_admins)</a>
             <!-- <a href="reports.php">reports</a> -->
-            <a href="create_reports.php">create reports</a>
+            <a href="create_reports.php" style = "padding: 10px; border-radius:5px; background-color:lightblue;">create reports</a>
+            <button onclick="window.print()" style = "padding: 10px; border-radius:5px; background-color:lightblue;">Export PDF</button>
         </div>
         <h2>All events</h2>
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -120,7 +122,7 @@ foreach ($comments_data as $row) {
         <h3>Analyst Comment</h3>
         <?php if (!empty($comments['all_events'])): ?>
             <?php foreach ($comments['all_events'] as $c): ?>
-                <div style="background-color:#8A9DF2; padding:2px; border-radius:5px;">
+                <div style="background-color: #8A9DF2; padding:2px; border-radius:5px;">
                     <h4>Title: <?= htmlspecialchars($c['title']) ?></h4>
                     <p>Comment: <?= htmlspecialchars($c['analyst_comment']) ?></p>
                 </div>
@@ -155,7 +157,7 @@ foreach ($comments_data as $row) {
         
         <?php if (!empty($comments['mouse_events'])): ?>
             <?php foreach ($comments['mouse_events'] as $c): ?>
-                <div style="background-color:#8A9DF2; padding:2px; border-radius:5px;">
+                <div style="background-color: #8A9DF2; padding:2px; border-radius:5px;">
                     <h4>Title: <?= htmlspecialchars($c['title']) ?></h4>
                     <p>Comment: <?= htmlspecialchars($c['analyst_comment']) ?></p>
                 </div>
@@ -211,7 +213,7 @@ foreach ($comments_data as $row) {
         
         <?php if (!empty($comments['event_type'])): ?>
             <?php foreach ($comments['event_type'] as $c): ?>
-                <div style="background-color:#8A9DF2; padding:2px; border-radius:5px;">
+                <div style="background-color: #8A9DF2; padding:2px; border-radius:5px;">
                     <h4>Title: <?= htmlspecialchars($c['title']) ?></h4>
                     <p>Comment: <?= htmlspecialchars($c['analyst_comment']) ?></p>
                 </div>
@@ -223,30 +225,36 @@ foreach ($comments_data as $row) {
         <hr>
 
         <h2>data table</h2>
-        <table style = "padding: 15px; border-spacing: 30px; border: 1px solid black; border-collapse: collapse;">
-            <tr>
-            <th style = "border: 1px solid black; padding: 10px;">id</th>
-            <th style = "border: 1px solid black; padding: 10px;">sid</th>
-            <th style = "border: 1px solid black; padding: 10px;">event_type</th>
-            <th style = "border: 1px solid black; padding: 10px;">url</th>
-            <th style = "border: 1px solid black; padding: 10px;">title</th>
-            <th style = "border: 1px solid black; padding: 10px;">created_at</th>
-            </tr>
-            <?php foreach ($rows as $r): ?>
-            <tr>
-                <td style = "border: 1px solid black; padding: 10px;"><?= (int)$r['id'] ?></td>
-                <td style = "border: 1px solid black; padding: 10px;"><?= htmlspecialchars($r['sid'] ?? '') ?></td>
-                <td style = "border: 1px solid black; padding: 10px;"><?= htmlspecialchars($r['event_type'] ?? '') ?></td>
-                <td style = "border: 1px solid black; padding: 10px;"><?= htmlspecialchars($r['url'] ?? '') ?></td>
-                <td style = "border: 1px solid black; padding: 10px;"><?= htmlspecialchars($r['title'] ?? '') ?></td>
-                <td style = "border: 1px solid black; padding: 10px;"><?= htmlspecialchars($r['created_at'] ?? '') ?></td>
-            </tr>
-            <?php endforeach; ?>
-        </table>
+        <div style="max-height: 400px; overflow-y: auto; border: 1px solid">
+            <table style = "padding: 15px; border-spacing: 30px; border: 1px solid black; border-collapse: collapse;">
+                <thead>
+                    <tr  style="background-color: #a5afe8; color: black; text-align: left;">
+                    <th style = "border: 1px solid black; padding: 10px;">id</th>
+                    <th style = "border: 1px solid black; padding: 10px;">sid</th>
+                    <th style = "border: 1px solid black; padding: 10px;">event_type</th>
+                    <th style = "border: 1px solid black; padding: 10px;">url</th>
+                    <th style = "border: 1px solid black; padding: 10px;">title</th>
+                    <th style = "border: 1px solid black; padding: 10px;">created_at</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($rows as $r): ?>
+                    <tr>
+                        <td style = "border: 1px solid black; padding: 10px;"><?= (int)$r['id'] ?></td>
+                        <td style = "border: 1px solid black; padding: 10px;"><?= htmlspecialchars($r['sid'] ?? '') ?></td>
+                        <td style = "border: 1px solid black; padding: 10px;"><?= htmlspecialchars($r['event_type'] ?? '') ?></td>
+                        <td style = "border: 1px solid black; padding: 10px;"><?= htmlspecialchars($r['url'] ?? '') ?></td>
+                        <td style = "border: 1px solid black; padding: 10px;"><?= htmlspecialchars($r['title'] ?? '') ?></td>
+                        <td style = "border: 1px solid black; padding: 10px;"><?= htmlspecialchars($r['created_at'] ?? '') ?></td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
         <h3>Analyst Comment</h3>
         <?php if (!empty($comments['data_table'])): ?>
             <?php foreach ($comments['data_table'] as $c): ?>
-                <div style="background-color:#8A9DF2; padding:2px; border-radius:5px;">
+                <div style="background-color: #8A9DF2; padding:2px; border-radius:5px;">
                     <h4>Title: <?= htmlspecialchars($c['title']) ?></h4>
                     <p>Comment: <?= htmlspecialchars($c['analyst_comment']) ?></p>
                 </div>
